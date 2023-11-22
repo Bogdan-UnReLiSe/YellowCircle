@@ -2,13 +2,31 @@ import sys
 import random
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5 import uic
+
+from PyQt5 import QtCore, QtWidgets
 
 
-class Benefer(QWidget):
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(600, 600)
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(270, 20, 75, 23))
+        self.pushButton.setObjectName("pushButton")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Click!"))
+
+
+class Benefer(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.do_paint = False
         self.pushButton.clicked.connect(self.paint)
 
@@ -21,7 +39,10 @@ class Benefer(QWidget):
         self.do_paint = False
 
     def draw(self, qp):
-        qp.setBrush(QColor(255, 255, 0))
+        r = random.randrange(0, 255)
+        g = random.randrange(0, 255)
+        b = random.randrange(0, 255)
+        qp.setBrush(QColor(r, g, b))
         x = random.randrange(0, 400)
         y = random.randrange(0, 400)
         d = random.randrange(0, 200)
